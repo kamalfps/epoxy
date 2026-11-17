@@ -33,3 +33,234 @@ button{flex:1;min-width:150px;padding:12px;font:600 1rem "Segoe UI",system-ui,sa
 .biz{font:700 1.45rem/1.15 Georgia,serif;color:var(--accent)}
 .bizsub{color:#444;font-size:.85rem;margin-top:4px;white-space:pre-line}
 .qt{text-align:right}
+.qt b{font:700 1.3rem Georgia,serif;letter-spacing:.06em}
+.qt div{font-size:.85rem;color:#444}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.two h3,.sec{font-size:.8rem;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);margin:0 0 4px}
+.two p{margin:0}
+table{width:100%;border-collapse:collapse}
+th{background:var(--accent);color:#fff;text-align:left;padding:7px 8px;font-size:.85rem}
+th:last-child,td:last-child{text-align:right}
+td{padding:8px;border-bottom:1px solid #ddd;vertical-align:top}
+td small{display:block;color:#555}
+td:last-child{white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.total td{border-bottom:0;background:#eef3f5;font-weight:700;font-size:1.1rem}
+.words{margin:8px 0 0;font-style:italic;font-size:.85rem}
+.terms{margin:16px 0 0}
+.terms ol{margin:4px 0 0;padding-left:20px}
+.terms li{margin-bottom:2px}
+.sign{margin-top:34px;display:flex;justify-content:space-between;gap:20px;font-size:.85rem}
+.sign div{border-top:1px solid #333;padding-top:4px;min-width:150px}
+@media print{
+  body{background:#fff}.wrap{padding:0;max-width:none}
+  header,fieldset,.btns{display:none}
+  #quote{border:0;padding:0}
+  th,tr.total td,.lh{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  @page{margin:14mm}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Epoxy grout quotation</h1>
+  <p>Fill in the details. The quotation below updates as you type.</p>
+</header>
+
+<fieldset>
+  <legend>Your business details</legend>
+  <div class="grid">
+    <label class="full">Business name<input id="biz" placeholder="e.g. Surat Epoxy Tile Works"></label>
+    <label>Phone<input id="phone" type="tel" placeholder="+91 98XXXXXXXX"></label>
+    <label>GSTIN (optional)<input id="gstin"></label>
+    <label class="full">Address / city<input id="addr" placeholder="e.g. Adajan, Surat, Gujarat"></label>
+    <label class="full">Your name (for signature)<input id="owner"></label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Job</legend>
+  <div class="grid">
+    <label class="full">Customer name<input id="cust" placeholder="e.g. Mr. Shah"></label>
+    <label class="full">Site / location<input id="site" placeholder="e.g. 3 BHK, Vesu, Surat"></label>
+    <label>Area<input id="area" type="number" min="0" step="any" value="100"></label>
+    <label>Unit<select id="unit"><option value="sqft">sq ft</option><option value="sqm">sq m</option></select></label>
+    <label>Tile length (mm)<input id="L" type="number" min="1" value="600"></label>
+    <label>Tile width (mm)<input id="W" type="number" min="1" value="600"></label>
+    <label>Joint width (mm)<input id="J" type="number" min="0.5" step="0.5" value="3"></label>
+    <label>Tile thickness (mm)<input id="T" type="number" min="1" step="0.5" value="9"></label>
+    <label class="check full"><input id="regrout" type="checkbox"> Regrouting (remove old grout first)</label>
+  </div>
+</fieldset>
+
+<fieldset>
+  <legend>Rates (₹) – edit to match your dealer</legend>
+  <div class="grid">
+    <label class="full">Grout brand
+      <select id="brand">
+        <option value="600">MYK Laticrete SP-100 – ₹600/kg</option>
+        <option value="590">Roff Starlike – ₹590/kg</option>
+        <option value="1255">Laticrete Dazzle (glitter) – ₹1,255/kg</option>
+        <option value="800">Local brand – ₹800/kg</option>
+        <option value="custom">Custom rate</option>
+      </select>
+    </label>
+    <label>Grout price per kg<input id="rate" type="number" min="0" value="600"></label>
+    <label>Wastage %<input id="waste" type="number" min="0" value="15"></label>
+    <label>Labour per sq ft<input id="labour" type="number" min="0" value="30"></label>
+    <label>Old-grout removal per sq ft<input id="removal" type="number" min="0" value="15"></label>
+    <label>Markup on material %<input id="markup" type="number" min="0" value="20"></label>
+    <label>GST %<input id="gst" type="number" min="0" value="18"></label>
+    <label>Minimum job charge<input id="minjob" type="number" min="0" value="3000"></label>
+    <label>Advance payment %<input id="adv" type="number" min="0" max="100" value="50"></label>
+    <label>Quote valid for (days)<input id="valid" type="number" min="1" value="15"></label>
+    <label>Quote number<input id="qno"></label>
+  </div>
+  <p class="hint">Details and rates are saved in this browser, so you only enter them once.</p>
+</fieldset>
+
+<div class="btns">
+  <button class="primary" id="wa">Send on WhatsApp</button>
+  <button class="secondary" id="print">Save as PDF / Print</button>
+</div>
+
+<section id="quote" aria-live="polite"></section>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const FIELDS = ["biz","phone","gstin","addr","owner","cust","site","area","unit","L","W","J","T","regrout","brand","rate","waste","labour","removal","markup","gst","minjob","adv","valid","qno"];
+const inr = n => "₹" + Math.round(n).toLocaleString("en-IN");
+const num = id => Math.max(0, parseFloat($(id).value) || 0);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = d => d.toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
+let lastText = "";
+
+function words(n){
+  n = Math.round(n); if(!n) return "Zero";
+  const a = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+  const b = ["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
+  const two = x => x<20 ? a[x] : b[Math.floor(x/10)] + (x%10 ? " "+a[x%10] : "");
+  const three = x => (x>99 ? a[Math.floor(x/100)]+" Hundred"+(x%100?" ":"") : "") + (x%100 ? two(x%100) : "");
+  const parts = [[10000000,"Crore"],[100000,"Lakh"],[1000,"Thousand"]];
+  let out = [];
+  for(const [v,name] of parts){ if(n>=v){ out.push(three(Math.floor(n/v))+" "+name); n %= v; } }
+  if(n) out.push(three(n));
+  return out.join(" ");
+}
+
+function load(){
+  try{
+    const s = JSON.parse(localStorage.getItem("groutQuote2") || "{}");
+    FIELDS.forEach(f=>{ if(s[f]===undefined) return; if($(f).type==="checkbox") $(f).checked=s[f]; else $(f).value=s[f]; });
+  }catch(e){}
+  if(!$("qno").value){
+    const d = new Date(), p = x => String(x).padStart(2,"0");
+    $("qno").value = "Q-" + d.getFullYear() + p(d.getMonth()+1) + p(d.getDate()) + "-01";
+  }
+}
+function save(){
+  try{
+    const s = {}; FIELDS.forEach(f=>{ s[f] = $(f).type==="checkbox" ? $(f).checked : $(f).value; });
+    localStorage.setItem("groutQuote2", JSON.stringify(s));
+  }catch(e){}
+}
+
+function calc(){
+  const sqft = $("unit").value==="sqm" ? num("area")*10.7639 : num("area");
+  const sqm = sqft/10.7639;
+  const L=num("L"), W=num("W"), J=num("J"), T=num("T");
+  const perSqm = (L && W) ? (L+W)/(L*W)*J*T*1.7 : 0;
+  const kg = perSqm*sqm*(1+num("waste")/100);
+  const matSell = kg*num("rate")*(1+num("markup")/100);
+  const lab = sqft*num("labour");
+  const rem = $("regrout").checked ? sqft*num("removal") : 0;
+  let sub = matSell+lab+rem;
+  const minApplied = sub>0 && sub<num("minjob");
+  if(minApplied) sub = num("minjob");
+  const gst = sub*num("gst")/100;
+  const total = sub+gst;
+  const advAmt = total*num("adv")/100;
+
+  const today = new Date(), until = new Date(); until.setDate(today.getDate()+num("valid"));
+  const biz = $("biz").value.trim() || "Your Business Name";
+  const cust = $("cust").value.trim(), site = $("site").value.trim();
+  const area = Math.round(sqft);
+  const scope = "Epoxy grouting of tile joints" + (rem ? ", including removal of old grout" : "");
+  const specs = L+" × "+W+" mm tiles, "+J+" mm joint";
+  const sub2 = [$("addr").value.trim(), $("phone").value.trim() && "Phone: "+$("phone").value.trim(), $("gstin").value.trim() && "GSTIN: "+$("gstin").value.trim()].filter(Boolean).join("\n");
+
+  let rows = [["Epoxy grout – supply", kg.toFixed(1)+" kg incl. "+num("waste")+"% wastage", inr(matSell)],
+              ["Application labour", area+" sq ft @ "+inr(num("labour"))+" per sq ft", inr(lab)]];
+  if(rem) rows.push(["Old-grout removal", area+" sq ft @ "+inr(num("removal"))+" per sq ft", inr(rem)]);
+  if(minApplied) rows.push(["Minimum job charge adjustment", "Applied as job is below minimum", inr(sub)]);
+
+  $("quote").innerHTML =
+   '<div class="lh"><div><div class="biz">'+esc(biz)+'</div><div class="bizsub">'+esc(sub2)+'</div></div>'+
+   '<div class="qt"><b>QUOTATION</b><div>No: '+esc($("qno").value)+'</div><div>Date: '+fmt(today)+'</div><div>Valid until: '+fmt(until)+'</div></div></div>'+
+   '<div class="two"><div><h3>Prepared for</h3><p><b>'+esc(cust||"Customer name")+'</b>'+(site?'<br>'+esc(site):'')+'</p></div>'+
+   '<div><h3>Scope of work</h3><p>'+esc(scope)+'<br>'+area+' sq ft · '+esc(specs)+'</p></div></div>'+
+   '<table><tr><th>Description</th><th>Amount</th></tr>'+
+   rows.map(r=>'<tr><td>'+r[0]+'<small>'+r[1]+'</small></td><td>'+r[2]+'</td></tr>').join("")+
+   '<tr><td>Subtotal</td><td>'+inr(sub)+'</td></tr>'+
+   '<tr><td>GST @ '+num("gst")+'%</td><td>'+inr(gst)+'</td></tr>'+
+   '<tr class="total"><td>Total payable</td><td>'+inr(total)+'</td></tr></table>'+
+   '<p class="words">Rupees '+words(total)+' only</p>'+
+   '<div class="terms"><div class="sec">Terms &amp; conditions</div><ol>'+
+   '<li>This quotation is valid for '+num("valid")+' days from the date above.</li>'+
+   '<li>Payment: '+num("adv")+'% advance ('+inr(advAmt)+') before starting; balance on completion.</li>'+
+   '<li>Epoxy grout needs 24 hours to cure. Please avoid water and heavy use for 24–48 hours.</li>'+
+   '<li>Rates assume tiles are fixed, clean and accessible. Additional work will be quoted separately.</li>'+
+   '<li>Material quantity is an estimate; final rate stays as quoted.</li></ol></div>'+
+   '<div class="sign"><div>Customer signature</div><div>For '+esc(biz)+($("owner").value.trim()?'<br>'+esc($("owner").value.trim()):'')+'</div></div>';
+
+  const L1 = [];
+  L1.push("*QUOTATION – EPOXY TILE GROUTING*");
+  L1.push("*"+biz+"*");
+  L1.push("Ref: "+$("qno").value+" | Date: "+fmt(today));
+  L1.push("");
+  L1.push("Dear "+(cust||"Sir/Madam")+",");
+  L1.push("Thank you for your enquiry. Please find our quotation below.");
+  L1.push("");
+  L1.push("*Scope of work*");
+  L1.push("• "+scope);
+  L1.push("• Area: "+area+" sq ft");
+  L1.push("• Tiles: "+specs);
+  if(site) L1.push("• Site: "+site);
+  L1.push("");
+  L1.push("*Cost summary*");
+  L1.push("Material: "+inr(matSell));
+  L1.push("Labour: "+inr(lab));
+  if(rem) L1.push("Old-grout removal: "+inr(rem));
+  if(minApplied) L1.push("(Minimum job charge applied)");
+  L1.push("Subtotal: "+inr(sub));
+  L1.push("GST @ "+num("gst")+"%: "+inr(gst));
+  L1.push("*TOTAL: "+inr(total)+"*");
+  L1.push("_(Rupees "+words(total)+" only)_");
+  L1.push("");
+  L1.push("*Terms*");
+  L1.push("• Valid until "+fmt(until));
+  L1.push("• "+num("adv")+"% advance ("+inr(advAmt)+"), balance on completion");
+  L1.push("• Avoid water and heavy use for 24–48 hours after grouting");
+  L1.push("");
+  L1.push("Looking forward to working with you.");
+  L1.push("Regards,");
+  L1.push($("owner").value.trim() || biz);
+  if($("phone").value.trim()) L1.push($("phone").value.trim());
+  lastText = L1.join("\n");
+  save();
+}
+
+$("brand").addEventListener("change", e=>{ if(e.target.value!=="custom") $("rate").value=e.target.value; calc(); });
+$("rate").addEventListener("input", ()=>{ $("brand").value="custom"; });
+FIELDS.forEach(f=>{ $(f).addEventListener("input", calc); $(f).addEventListener("change", calc); });
+$("wa").addEventListener("click", ()=>window.open("https://wa.me/?text="+encodeURIComponent(lastText),"_blank"));
+$("print").addEventListener("click", ()=>{
+  const old = document.title; document.title = "Quotation-" + $("qno").value + ($("cust").value.trim() ? "-" + $("cust").value.trim().replace(/\s+/g,"_") : "");
+  window.print(); setTimeout(()=>{ document.title = old; }, 500);
+});
+
+load(); calc();
+</script>
+</body>
+</html>
