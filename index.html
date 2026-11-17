@@ -3,14 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Epoxy Grout Quotation – Surat</title>
+<title>Epoxy Grout Quotation</title>
 <style>
-:root{--bg:#eceae6;--ink:#23272b;--mute:#69707a;--line:#c9c5bd;--card:#fbfaf8;--accent:#1f4e5f;--accent-ink:#fff}
+:root{--bg:#e9e7e2;--ink:#1f2328;--mute:#626a73;--line:#cfcbc3;--card:#fbfaf8;--accent:#1f4e5f}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 "Segoe UI",system-ui,sans-serif}
-.wrap{max-width:720px;margin:0 auto;padding:20px 16px 48px}
-header{padding:8px 0 18px;border-bottom:3px solid var(--ink);margin-bottom:18px}
-h1{font:700 1.7rem/1.15 Georgia,serif;margin:0 0 4px}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 48px}
+header{padding:6px 0 16px;border-bottom:3px solid var(--ink);margin-bottom:16px}
+h1{font:700 1.6rem/1.15 Georgia,serif;margin:0 0 4px}
 header p{margin:0;color:var(--mute)}
 fieldset{border:1px solid var(--line);background:var(--card);border-radius:6px;margin:0 0 14px;padding:14px}
 legend{font-weight:700;padding:0 6px}
@@ -22,142 +22,14 @@ input:focus,select:focus,button:focus-visible{outline:3px solid #7fb3c4;outline-
 .check{display:flex;gap:8px;align-items:center;color:var(--ink);font-size:1rem}
 .check input{width:auto;margin:0}
 .hint{font-size:.8rem;color:var(--mute);margin:8px 0 0}
-#quote{background:var(--card);border:2px solid var(--ink);border-radius:6px;padding:16px;margin-top:6px}
-#quote h2{font:700 1.2rem Georgia,serif;margin:0 0 2px}
-.meta{color:var(--mute);font-size:.85rem;margin-bottom:10px}
-table{width:100%;border-collapse:collapse}
-td{padding:7px 0;border-bottom:1px solid var(--line);vertical-align:top}
-td:last-child{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
-td small{display:block;color:var(--mute)}
-tr.total td{border-bottom:0;border-top:3px double var(--ink);font-size:1.25rem;font-weight:700;padding-top:10px}
-.btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
-button{flex:1;min-width:140px;padding:12px;font:600 1rem inherit;font-family:inherit;border-radius:4px;border:2px solid var(--accent);cursor:pointer}
-.primary{background:var(--accent);color:var(--accent-ink)}
+.btns{display:flex;gap:10px;margin:14px 0;flex-wrap:wrap}
+button{flex:1;min-width:150px;padding:12px;font:600 1rem "Segoe UI",system-ui,sans-serif;border-radius:4px;border:2px solid var(--accent);cursor:pointer}
+.primary{background:var(--accent);color:#fff}
 .secondary{background:transparent;color:var(--accent)}
-.note{font-size:.8rem;color:var(--mute);margin-top:12px}
-@media print{body{background:#fff}header p,fieldset,.btns,.hint{display:none}#quote{border:0;padding:0}}
-</style>
-</head>
-<body>
-<div class="wrap">
-<header>
-  <h1>Epoxy grout quotation</h1>
-  <p>Enter the job details. The quote updates as you type.</p>
-</header>
 
-<fieldset>
-  <legend>Job</legend>
-  <div class="grid">
-    <label class="full">Customer / site<input id="cust" placeholder="e.g. Mr. Shah, Vesu"></label>
-    <label>Area<input id="area" type="number" min="0" step="any" value="100"></label>
-    <label>Unit<select id="unit"><option value="sqft">sq ft</option><option value="sqm">sq m</option></select></label>
-    <label>Tile length (mm)<input id="L" type="number" min="1" value="600"></label>
-    <label>Tile width (mm)<input id="W" type="number" min="1" value="600"></label>
-    <label>Joint width (mm)<input id="J" type="number" min="0.5" step="0.5" value="3"></label>
-    <label>Tile thickness (mm)<input id="T" type="number" min="1" step="0.5" value="9"></label>
-    <label class="check full"><input id="regrout" type="checkbox"> Regrouting (remove old grout first)</label>
-  </div>
-</fieldset>
-
-<fieldset>
-  <legend>Rates (₹) – edit to match your dealer</legend>
-  <div class="grid">
-    <label class="full">Grout brand
-      <select id="brand">
-        <option value="600">MYK Laticrete SP-100 – ₹600/kg</option>
-        <option value="590">Roff Starlike – ₹590/kg</option>
-        <option value="1255">Laticrete Dazzle (glitter) – ₹1,255/kg</option>
-        <option value="800">Local brand – ₹800/kg</option>
-        <option value="custom">Custom rate</option>
-      </select>
-    </label>
-    <label>Grout price per kg<input id="rate" type="number" min="0" value="600"></label>
-    <label>Wastage %<input id="waste" type="number" min="0" value="15"></label>
-    <label>Labour per sq ft<input id="labour" type="number" min="0" value="30"></label>
-    <label>Old-grout removal per sq ft<input id="removal" type="number" min="0" value="15"></label>
-    <label>Markup on material %<input id="markup" type="number" min="0" value="20"></label>
-    <label>GST %<input id="gst" type="number" min="0" value="18"></label>
-    <label class="full">Minimum job charge<input id="minjob" type="number" min="0" value="3000"></label>
-  </div>
-  <p class="hint">Rates are saved in this browser, so you only set them once. Starting prices come from dealer listings and need checking against Surat quotes.</p>
-</fieldset>
-
-<section id="quote" aria-live="polite">
-  <h2>Quotation</h2>
-  <div class="meta" id="meta"></div>
-  <table id="rows"></table>
-  <div class="btns">
-    <button class="primary" id="wa">Send on WhatsApp</button>
-    <button class="secondary" id="print">Print / save PDF</button>
-  </div>
-  <p class="note">Valid for 15 days. Price covers labour and material for epoxy grouting only. Prices may change with site conditions.</p>
-</section>
-</div>
-
-<script>
-const $ = id => document.getElementById(id);
-const FIELDS = ["cust","area","unit","L","W","J","T","regrout","brand","rate","waste","labour","removal","markup","gst","minjob"];
-const inr = n => "₹" + Math.round(n).toLocaleString("en-IN");
-let lastText = "";
-
-function load(){
-  try{
-    const s = JSON.parse(localStorage.getItem("groutQuote") || "{}");
-    FIELDS.forEach(f=>{ if(s[f]===undefined) return; if($(f).type==="checkbox") $(f).checked=s[f]; else $(f).value=s[f]; });
-  }catch(e){}
-}
-function save(){
-  try{
-    const s={}; FIELDS.forEach(f=>{ s[f]=$(f).type==="checkbox"?$(f).checked:$(f).value; });
-    localStorage.setItem("groutQuote", JSON.stringify(s));
-  }catch(e){}
-}
-const num = id => Math.max(0, parseFloat($(id).value) || 0);
-
-function calc(){
-  const sqft = $("unit").value==="sqm" ? num("area")*10.7639 : num("area");
-  const sqm = sqft/10.7639;
-  const L=num("L"), W=num("W"), J=num("J"), T=num("T");
-  const perSqm = (L && W) ? (L+W)/(L*W)*J*T*1.7 : 0;
-  const kg = perSqm*sqm*(1+num("waste")/100);
-  const matCost = kg*num("rate");
-  const matSell = matCost*(1+num("markup")/100);
-  const lab = sqft*num("labour");
-  const rem = $("regrout").checked ? sqft*num("removal") : 0;
-  let sub = matSell+lab+rem;
-  const minApplied = sub>0 && sub<num("minjob");
-  if(minApplied) sub = num("minjob");
-  const gst = sub*num("gst")/100;
-  const total = sub+gst;
-
-  const rows = [
-    ["Epoxy grout material<small>"+kg.toFixed(1)+" kg incl. "+num("waste")+"% wastage</small>", inr(matSell)],
-    ["Labour<small>"+Math.round(sqft)+" sq ft × "+inr(num("labour"))+"</small>", inr(lab)]
-  ];
-  if(rem) rows.push(["Old-grout removal<small>"+Math.round(sqft)+" sq ft × "+inr(num("removal"))+"</small>", inr(rem)]);
-  if(minApplied) rows.push(["Minimum job charge applied", inr(sub)]);
-  rows.push(["Subtotal", inr(sub)], ["GST "+num("gst")+"%", inr(gst)]);
-  $("rows").innerHTML = rows.map(r=>"<tr><td>"+r[0]+"</td><td>"+r[1]+"</td></tr>").join("") +
-    "<tr class='total'><td>Total</td><td>"+inr(total)+"</td></tr>";
-
-  const d = new Date().toLocaleDateString("en-IN",{day:"numeric",month:"short",year:"numeric"});
-  const who = $("cust").value.trim();
-  $("meta").textContent = (who?who+" · ":"") + d + " · " + Math.round(sqft) + " sq ft, " + L + "×" + W + " mm tiles, " + J + " mm joint";
-
-  lastText = "Epoxy grout quotation" + (who?" for "+who:"") + " (" + d + ")\n" +
-    Math.round(sqft)+" sq ft, "+L+"×"+W+" mm tiles, "+J+" mm joint\n" +
-    "Material: "+inr(matSell)+"\nLabour: "+inr(lab)+"\n" + (rem?"Old-grout removal: "+inr(rem)+"\n":"") +
-    "GST "+num("gst")+"%: "+inr(gst)+"\nTotal: "+inr(total)+"\nValid for 15 days.";
-  save();
-}
-
-$("brand").addEventListener("change", e=>{ if(e.target.value!=="custom") $("rate").value=e.target.value; calc(); });
-$("rate").addEventListener("input", ()=>{ $("brand").value="custom"; });
-FIELDS.forEach(f=>{ $(f).addEventListener("input", calc); $(f).addEventListener("change", calc); });
-$("wa").addEventListener("click", ()=>window.open("https://wa.me/?text="+encodeURIComponent(lastText),"_blank"));
-$("print").addEventListener("click", ()=>window.print());
-
-load(); calc();
-</script>
-</body>
-</html>
+/* the quotation document */
+#quote{background:#fff;border:1px solid var(--line);padding:26px 22px;color:#111;font-size:.92rem}
+.lh{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:3px solid var(--accent);padding-bottom:12px;flex-wrap:wrap}
+.biz{font:700 1.45rem/1.15 Georgia,serif;color:var(--accent)}
+.bizsub{color:#444;font-size:.85rem;margin-top:4px;white-space:pre-line}
+.qt{text-align:right}
