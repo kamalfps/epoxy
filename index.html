@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Epoxy Grout Quotation</title>
+<title>Seamline – Epoxy Grout Quotation</title>
 <style>
 :root{--bg:#e9e7e2;--ink:#1f2328;--mute:#626a73;--line:#cfcbc3;--card:#fbfaf8;--accent:#1f4e5f}
 *{box-sizing:border-box}
@@ -31,6 +31,7 @@ button{flex:1;min-width:150px;padding:12px;font:600 1rem "Segoe UI",system-ui,sa
 #quote{background:#fff;border:1px solid var(--line);padding:26px 22px;color:#111;font-size:.92rem}
 .lh{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;border-bottom:3px solid var(--accent);padding-bottom:12px;flex-wrap:wrap}
 .biz{font:700 1.45rem/1.15 Georgia,serif;color:var(--accent)}
+.tag{font-size:.8rem;letter-spacing:.04em;color:#444;margin-top:2px}
 .bizsub{color:#444;font-size:.85rem;margin-top:4px;white-space:pre-line}
 .qt{text-align:right}
 .qt b{font:700 1.3rem Georgia,serif;letter-spacing:.06em}
@@ -63,14 +64,14 @@ tr.total td{border-bottom:0;background:#eef3f5;font-weight:700;font-size:1.1rem}
 <body>
 <div class="wrap">
 <header>
-  <h1>Epoxy grout quotation</h1>
+  <h1>Seamline – quotation</h1>
   <p>Fill in the details. The quotation below updates as you type.</p>
 </header>
 
 <fieldset>
   <legend>Your business details</legend>
   <div class="grid">
-    <label class="full">Business name<input id="biz" placeholder="e.g. Surat Epoxy Tile Works"></label>
+    <label class="full">Business name<input id="biz" value="Seamline"></label>
     <label>Phone<input id="phone" type="tel" placeholder="+91 98XXXXXXXX"></label>
     <label>GSTIN (optional)<input id="gstin"></label>
     <label class="full">Address / city<input id="addr" placeholder="e.g. Adajan, Surat, Gujarat"></label>
@@ -183,7 +184,7 @@ function calc(){
   const advAmt = total*num("adv")/100;
 
   const today = new Date(), until = new Date(); until.setDate(today.getDate()+num("valid"));
-  const biz = $("biz").value.trim() || "Your Business Name";
+  const biz = $("biz").value.trim() || "Seamline";
   const cust = $("cust").value.trim(), site = $("site").value.trim();
   const area = Math.round(sqft);
   const scope = "Epoxy grouting of tile joints" + (rem ? ", including removal of old grout" : "");
@@ -196,7 +197,7 @@ function calc(){
   if(minApplied) rows.push(["Minimum job charge adjustment", "Applied as job is below minimum", inr(sub)]);
 
   $("quote").innerHTML =
-   '<div class="lh"><div><div class="biz">'+esc(biz)+'</div><div class="bizsub">'+esc(sub2)+'</div></div>'+
+   '<div class="lh"><div><div class="biz">'+esc(biz)+'</div><div class="tag">Epoxy Grouting &amp; Tile Finishing</div><div class="bizsub">'+esc(sub2)+'</div></div>'+
    '<div class="qt"><b>QUOTATION</b><div>No: '+esc($("qno").value)+'</div><div>Date: '+fmt(today)+'</div><div>Valid until: '+fmt(until)+'</div></div></div>'+
    '<div class="two"><div><h3>Prepared for</h3><p><b>'+esc(cust||"Customer name")+'</b>'+(site?'<br>'+esc(site):'')+'</p></div>'+
    '<div><h3>Scope of work</h3><p>'+esc(scope)+'<br>'+area+' sq ft · '+esc(specs)+'</p></div></div>'+
